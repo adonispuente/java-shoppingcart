@@ -33,6 +33,14 @@ public class UserController
         return new ResponseEntity<>(myUsers, HttpStatus.OK);
     }
 
+//    @GetMapping(value = "/myinfo/", produces = {"application/json"})
+//    public ResponseEntity<?> mystuff(){
+//        User user =userService.
+//    }
+
+
+
+
     @GetMapping(value = "/user/{userId}",
             produces = {"application/json"})
     public ResponseEntity<?> getUserById(
@@ -71,4 +79,5 @@ public class UserController
         userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
