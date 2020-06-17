@@ -71,7 +71,9 @@ public class ResourceServerConfig
                 .hasAnyRole("ADMIN")
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(new OAuth2AccessDeniedHandler());
+                .accessDeniedHandler(new OAuth2AccessDeniedHandler())
+        ;
+
 
         // http.requiresChannel().anyRequest().requiresSecure(); required for https
 
