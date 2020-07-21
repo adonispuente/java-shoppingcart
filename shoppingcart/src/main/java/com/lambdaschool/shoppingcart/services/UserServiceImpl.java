@@ -16,6 +16,8 @@ import java.util.List;
 public class UserServiceImpl
         implements UserService
 {
+
+
     /**
      * Connects this service to the users repository
      */
@@ -70,5 +72,15 @@ public class UserServiceImpl
             throw new ResourceFoundException("Carts are not added through users");
         }
         return userrepos.save(newUser);
+    }
+
+    @Override
+    public User findByName(String username) {
+        User user = userrepos.findByUsername(username.toLowerCase());
+        if (user == null){
+            throw new ResourceNotFoundException("User name "+ username + " not found");
+        }
+        return user;
+
     }
 }

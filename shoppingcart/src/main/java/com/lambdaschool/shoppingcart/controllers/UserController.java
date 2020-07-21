@@ -2,10 +2,12 @@ package com.lambdaschool.shoppingcart.controllers;
 
 import com.lambdaschool.shoppingcart.models.User;
 import com.lambdaschool.shoppingcart.services.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +35,19 @@ public class UserController
         return new ResponseEntity<>(myUsers, HttpStatus.OK);
     }
 
+
+    @ApiOperation(value = "returns the currently authenticated user",
+            response = User.class)
+    @GetMapping(value = "/myinfo", produces = {"application/json"})
+    public ResponseEntity<?> mystuff(Authentication authentication){
+         User u = userService.findByName(authentication.getName());
+        return new ResponseEntity<>(u,
+            HttpStatus.OK);
+    }
+
+
+
+
     @GetMapping(value = "/user/{userId}",
             produces = {"application/json"})
     public ResponseEntity<?> getUserById(
@@ -58,9 +73,7 @@ public class UserController
                 .toUri();
         responseHeaders.setLocation(newUserURI);
 
-        return new ResponseEntity<>(null,
-                                    responseHeaders,
-                                    HttpStatus.CREATED);
+        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/user/{userId}")
@@ -71,4 +84,5 @@ public class UserController
         userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
